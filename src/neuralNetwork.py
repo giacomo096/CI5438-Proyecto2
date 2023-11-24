@@ -53,7 +53,7 @@ class NeuralNetwork:
     # Función de entrenamiento: ejecuta la propagación hacia adelante y hacia atrás
     def train(self, inputs, expected_output, learning_rate, iterations):
         # Ejecuta el ciclo de entrenamiento para el número dado de iteraciones
-        for _ in range(iterations):
+        for i in range(iterations):
             activations = self.forward_propagation(inputs)
             errors = self.backward_propagation(activations, expected_output)
             self.update_weights(activations, errors, learning_rate)
@@ -86,7 +86,7 @@ normInputs = np.array(normInputs)
 outputs = np.array(pd.get_dummies(df['species']))
 
 # Entrenamiento de la red con los datos
-nn.train(normInputs, outputs, learning_rate=0.01, iterations=4000000)
+nn.train(normInputs, outputs, learning_rate=0.01, iterations=5000)
 
 # Uso de la red para hacer una predicción con un ejemplo de entrada
 print(nn.predict(np.array([5.3,3.7,1.5,0.2])))
