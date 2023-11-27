@@ -52,17 +52,25 @@ class NeuralNetwork:
 
     # Función de entrenamiento: ejecuta la propagación hacia adelante y hacia atrás
     def train(self, inputs, expected_output, learning_rate, iterations):
-        # Ejecuta el ciclo de entrenamiento para el número dado de iteraciones
+        self.errors = []  # Inicializa una lista para almacenar los errores
         for i in range(iterations):
             activations = self.forward_propagation(inputs)
             errors = self.backward_propagation(activations, expected_output)
             self.update_weights(activations, errors, learning_rate)
-            
+            mean_error = self.lossFn(expected_output, activations[-1])
+            self.errors.append(mean_error)  # Almacena el error medio en la lista
 
+    # Función para graficar la curva de aprendizaje
+    def plot_learning_curve(self):
+        plt.plot(self.errors)
+        plt.title('Curva de Aprendizaje')
+        plt.xlabel('Iteraciones')
+        plt.ylabel('Error Medio')
+        plt.show()
+            
     # Función de predicción: calcula las salidas de la red para las entradas dadas
     def predict(self, inputs):
         activations = self.forward_propagation(inputs)
-        #print(activations)
         return activations[-1]
 
 # Ejemplo de uso
@@ -92,3 +100,5 @@ nn.train(normInputs, outputs, learning_rate=0.01, iterations=5000)
 print(nn.predict(np.array([5.3,3.7,1.5,0.2])))
 print(nn.predict(np.array([6.1,2.8,4,1.3])))
 print(nn.predict(np.array([6.9,3.2,5.7,2.3])))
+
+nn.plot_learning_curve()
