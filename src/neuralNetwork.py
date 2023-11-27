@@ -6,6 +6,7 @@ import sys
 class NeuralNetwork:
     def __init__(self, layer_sizes):
         self.weights = []
+        self.errors = []
 
         # Inicialización de pesos y sesgos con valores aleatorios para cada capa
         for i in range(len(layer_sizes) - 1):
@@ -52,7 +53,6 @@ class NeuralNetwork:
 
     # Función de entrenamiento: ejecuta la propagación hacia adelante y hacia atrás
     def train(self, inputs, expected_output, learning_rate, iterations):
-        self.errors = []  # Inicializa una lista para almacenar los errores
         for i in range(iterations):
             activations = self.forward_propagation(inputs)
             errors = self.backward_propagation(activations, expected_output)
@@ -75,7 +75,7 @@ class NeuralNetwork:
 
 # Ejemplo de uso
 # Configuración de tamaños de capa: 4 entradas, 5 neuronas en la primera capa oculta, y así sucesivamente hasta 3 salidas
-layer_sizes = [4,245,300,3]
+layer_sizes = [4,100,100,3]
 nn = NeuralNetwork(layer_sizes)
 
 # Carga y preparación de datos de entrenamiento
@@ -94,7 +94,7 @@ normInputs = np.array(normInputs)
 outputs = np.array(pd.get_dummies(df['species']))
 
 # Entrenamiento de la red con los datos
-nn.train(normInputs, outputs, learning_rate=0.01, iterations=5000)
+nn.train(normInputs, outputs, learning_rate=0.001, iterations=50000)
 
 # Uso de la red para hacer una predicción con un ejemplo de entrada
 print(nn.predict(np.array([5.3,3.7,1.5,0.2])))
